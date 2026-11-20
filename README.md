@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Motion UI Lab — Interactive & Accessible Micro-Interactions
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A curated collection of physics-based UI components and layout transitions built with **React**, **TypeScript**, and **Motion** (formerly Framer Motion).
 
-## Available Scripts
+This sandbox focuses on achieving native-feeling micro-interactions while maintaining strict performance standards (zero unnecessary React re-renders) and full screen-reader/keyboard accessibility.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Featured Components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. `LongPress` — Gesture-Driven Unlock Button
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+A tactile hold-to-unlock control combining pointer gesture thresholds with synchronized SVG stroke animations.
 
-### `npm test`
+- **Gesture & Animation Sync:** Coordinates `tap={{ hold }}` cancellation boundaries with linear `strokeDashoffset` progress and `onAnimationComplete` triggers.
+- **Conditional Reset Physics:** Uses `useRef` and `custom` variant props to distinguish between an aborted press (spring rollback) and a post-unlock reset (instant zero-duration reset).
+- **Feedback & A11y:** Includes mobile haptic feedback (`navigator.vibrate`) and `aria-live="polite"` status announcements.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2. `Stepper` — Kinetic Numerical Counter
 
-### `npm run build`
+A bounded numerical input (`0–99`) engineered for rapid hold-to-repeat interaction without stale state closures.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Rapid Hold-to-Repeat:** Uses `tap={{ hold, repeat }}` paired with a synchronous `useRef` tracker so fast increments never drop frames or lag behind React renders.
+- **Direction-Aware Transitions:** Leverages `AnimatePresence` and `custom` direction multipliers to animate digits vertically up or down depending on increment/decrement direction.
+- **Boundary Resistance:** Triggers an imperative horizontal shake (`useAnimate`) when hitting min/max limits while keeping controls focusable via `aria-disabled`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 3. `ScrollHorizontal` — Sticky Scroll-Linked Gallery
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Transforms vertical page scrolling into smooth horizontal track movement without scroll-jacking.
 
-### `npm run eject`
+- **Zero-Rerender Pipeline:** Maps vertical scroll progress (`useScroll`) directly to horizontal translation (`useTransform`) on the GPU compositor thread.
+- **Responsive Bounds:** Dynamically recalculates track overflow widths via `ResizeObserver` / layout measurements to keep start and end positions aligned across viewports.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 4. `LayoutAnchor` — FLIP Layout Transitions
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Demonstrates shared-element and container expansion patterns without layout thrashing.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Origin-Controlled Expansion:** Uses `layout` and `layoutAnchor` properties to morph containers cleanly from specific anchor points while compensating for aspect-ratio distortion.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Engineering Highlights
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **60fps Performance:** Heavy scroll and gesture loops run outside the React render cycle via `MotionValue` bindings and GPU-accelerated transforms (`x`, `y`, `scale`, `opacity`).
+- **Spring Physics over Fixed Durations:** Tuned `stiffness`, `damping`, and `mass` parameters allow animations to preserve velocity and redirect smoothly when interrupted mid-flight.
+- **Accessibility First:** Interactive states expose proper ARIA roles (`role="status"`, `aria-live`, `aria-disabled`) and respect reduced-motion preferences.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Getting Started
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
 
-### Analyzing the Bundle Size
+# Install dependencies
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Run the development server
+npm run dev
+```
