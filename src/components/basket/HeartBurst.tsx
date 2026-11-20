@@ -15,6 +15,8 @@ interface HeartBurstProps extends Omit<Burst, "id"> {
 export default function HeartBurst({ x, y, rotate, onDone }: HeartBurstProps) {
   const [scope, animate] = useAnimate();
   const heart = useRef<SVGSVGElement>(null);
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
 
   useEffect(() => {
     const element = heart.current!;
@@ -32,8 +34,8 @@ export default function HeartBurst({ x, y, rotate, onDone }: HeartBurstProps) {
       scope.current,
       { y: -48, scale: 0.7, opacity: 0 },
       { duration: 0.35, ease: "easeIn", delay: 0.5 },
-    ).then(onDone);
-  }, []);
+    ).then(onDoneRef.current);
+  }, [animate, rotate, scope]);
 
   return (
     <div ref={scope} className="dt-burst" style={{ left: x, top: y }}>

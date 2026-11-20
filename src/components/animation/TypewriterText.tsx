@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   motion,
   useMotionValue,
@@ -12,19 +12,19 @@ export function TypewriterText({ text = "Hello, Full-Stack Developer!" }) {
   const displayText = useTransform(() => text.slice(0, Math.round(count.get())));
   const controlsRef = useRef<AnimationPlaybackControls | null>(null);
 
-  const startTyping = () => {
+  const startTyping = useCallback(() => {
     controlsRef.current?.stop();
     count.set(0);
     controlsRef.current = animate(count, text.length, {
       duration: 2,
       ease: "linear",
     });
-  };
+  }, [count, text]);
 
   useEffect(() => {
     startTyping();
     return () => controlsRef.current?.stop();
-  }, [text]);
+  }, [text, startTyping]);
 
   return (
     <motion.div

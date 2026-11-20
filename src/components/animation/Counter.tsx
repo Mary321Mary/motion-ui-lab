@@ -10,7 +10,7 @@ export default function Counter() {
   useEffect(() => {
     const controls = animate(count, 100, { duration: 7 });
     return () => controls.stop();
-  }, []);
+  }, [count]);
 
   return (
     <motion.div

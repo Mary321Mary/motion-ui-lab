@@ -16,15 +16,15 @@ export default function UseTransform() {
   const crossPathA = useTransform(x, [-10, -55], [0, 1]);
   const crossPathB = useTransform(x, [-50, -100], [0, 1]);
 
-  const [status, setStatus] = useState<"idle" | "confirmed" | "cancelled">("idle");
+  // const [status, setStatus] = useState<"idle" | "confirmed" | "cancelled">("idle");
 
   const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const currentX = x.get(); // or info.offset.x
 
     if (currentX >= 80) {
-      setStatus("confirmed");
+      // setStatus("confirmed");
     } else if (currentX <= -80) {
-      setStatus("cancelled");
+      // setStatus("cancelled");
     }
   };
 

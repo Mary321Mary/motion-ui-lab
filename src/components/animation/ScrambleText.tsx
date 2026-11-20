@@ -24,7 +24,7 @@ export function ScrambleText({ targetText = "SYSTEM ONLINE" }) {
       ease: "easeOut",
     });
     return () => controls.stop();
-  }, [targetText]);
+  }, [targetText, progress]);
 
   return (
     <motion.span style={{ fontSize: 32, fontFamily: "monospace", margin: "auto", color: "#fff" }}>
