@@ -8,29 +8,27 @@ import { MenuToggle } from "./MenuToggle";
 import LongPress from "../LongPress";
 import Stepper from "../Stepper";
 import PinchZoom from "../PinchZoom";
+import Reordering from "../Reordering";
 
 export const MENU_ITEMS = [
   {
     id: 0,
     title: "LongPress",
-    description: "General system status and summary.",
     render: () => <LongPress />,
   },
   {
     id: 1,
     title: "Stepper",
-    description: "Live throughput and latency charts.",
     render: () => <Stepper />,
   },
   {
     id: 2,
     title: "PinchZoom",
-    description: "Unhandled exceptions and stack traces.",
     render: () => <PinchZoom />,
   },
-  { id: 3, title: "???", description: "", render: () => null },
-  { id: 4, title: "???", description: "", render: () => null },
-  { id: 5, title: "???", description: "", render: () => null },
+  { id: 3, title: "Shuffle", render: () => <Reordering /> },
+  { id: 4, title: "???", render: () => null },
+  { id: 5, title: "???", render: () => null },
 ];
 
 export default function Menu() {
@@ -126,14 +124,14 @@ const container: React.CSSProperties = {
   justifyContent: "flex-start",
   alignItems: "stretch",
   flex: 1,
-  margin: "auto",
+  margin: "20px auto",
 
   width: 700,
   maxWidth: "100%",
   height: 700,
   backgroundColor: "#69c3ff",
   borderRadius: 20,
-  border: "1px solid rgb(47, 0, 255)",
+  // border: "1px solid rgb(47, 0, 255)",
   overflow: "hidden",
 };
 

@@ -4,6 +4,8 @@ A curated collection of physics-based UI components and layout transitions built
 
 This sandbox focuses on achieving native-feeling micro-interactions while maintaining strict performance standards (zero unnecessary React re-renders) and full screen-reader/keyboard accessibility.
 
+🔗 **[Live Demo](https://motion-ui-lab.vercel.app)**
+
 ---
 
 ## Featured Components

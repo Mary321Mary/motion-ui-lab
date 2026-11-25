@@ -1,8 +1,16 @@
-import { lazy, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { lazy, Suspense, useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Link,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import "./App.css";
 import { PATH } from "./path";
-import { motion, useScroll, useMotionValueEvent } from "motion/react";
+import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { SiteFooter } from "./layout/Footer";
 
 const Home = lazy(() => import("pages/Home"));
 const Scroll = lazy(() => import("pages/Scroll"));
@@ -10,83 +18,120 @@ const Content = lazy(() => import("pages/Content"));
 const SvgAnimation = lazy(() => import("pages/SvgAnimation"));
 const Basket = lazy(() => import("pages/Basket"));
 const Menu = lazy(() => import("pages/Menu"));
-const Shuffle = lazy(() => import("pages/Shuffle"));
 
 const routes = [
-  {
-    path: PATH.HOME,
-    element: <Home />,
-  },
-  {
-    path: PATH.SCROLL,
-    element: <Scroll />,
-  },
-  {
-    path: PATH.CONTENT,
-    element: <Content />,
-  },
-  {
-    path: PATH.SVG_ANIMATION,
-    element: <SvgAnimation />,
-  },
-  {
-    path: PATH.BASKET,
-    element: <Basket />,
-  },
-  {
-    path: PATH.MENU,
-    element: <Menu />,
-  },
-  {
-    path: PATH.SHUFFLE,
-    element: <Shuffle />,
-  },
+  { path: PATH.HOME, element: <Home /> },
+  { path: PATH.SCROLL, element: <Scroll /> },
+  { path: PATH.CONTENT, element: <Content /> },
+  { path: PATH.SVG_ANIMATION, element: <SvgAnimation /> },
+  { path: PATH.BASKET, element: <Basket /> },
+  { path: PATH.MENU, element: <Menu /> },
 ];
 
-function App() {
+const navigation = [
+  { label: "Home", path: PATH.HOME },
+  { label: "Scroll", path: PATH.SCROLL },
+  { label: "Text", path: PATH.CONTENT },
+  { label: "SVG", path: PATH.SVG_ANIMATION },
+  { label: "Basket", path: PATH.BASKET },
+  { label: "Menu", path: PATH.MENU },
+];
+
+function SiteLayout() {
   const { scrollY } = useScroll();
+  const location = useLocation();
   const [hidden, setHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (current) => {
     const previous = scrollY.getPrevious() ?? 0;
-    if (current > previous && current > 150) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
+    setHidden(current > previous && current > 150);
   });
 
+  useEffect(() => {
+    setMenuOpen(false);
+    setHidden(false);
+    if (!location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, location.hash]);
+
   return (
-    <div>
+    <div className="site-shell">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
       <motion.header
-        className="header"
+        className={`site-header${menuOpen ? " menu-open" : ""}`}
         animate={{
-          y: hidden ? -140 : 0,
-          opacity: hidden ? 0 : 1,
+          y: hidden && !menuOpen ? -120 : 0,
+          opacity: hidden && !menuOpen ? 0 : 1,
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ duration: 0.28, ease: "easeInOut" }}
       >
-        <nav>
-          <a href={PATH.HOME}>Home</a>
-          <a href={PATH.SCROLL}>Scroll</a>
-          <a href={PATH.CONTENT}>Content</a>
-          <a href={PATH.SVG_ANIMATION}>SVG animations</a>
-          <a href={PATH.BASKET}>Basket</a>
-          <a href={PATH.MENU}>Menu</a>
-          <a href={PATH.SHUFFLE}>Shuffle</a>
-        </nav>
+        <div className="header-inner">
+          <Link className="brand" to={PATH.HOME} aria-label="Motion Lab home">
+            <span className="brand-mark" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span className="brand-name">
+              motion<span>lab</span>
+            </span>
+          </Link>
+
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={menuOpen}
+            aria-controls="primary-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+          </button>
+
+          <nav
+            id="primary-navigation"
+            className={`primary-navigation${menuOpen ? " is-open" : ""}`}
+            aria-label="Primary navigation"
+          >
+            {navigation.map(({ label, path }) => (
+              <NavLink
+                key={path}
+                to={path}
+                end={path === PATH.HOME}
+                className={({ isActive }) => (isActive ? "nav-link is-active" : "nav-link")}
+              >
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+        </div>
       </motion.header>
 
-      <main className="App">
-        <Router>
+      <main className="App" id="main-content">
+        <Suspense fallback={<div className="route-loading">Loading experience…</div>}>
           <Routes>
             {routes.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
           </Routes>
-        </Router>
+        </Suspense>
       </main>
+
+      <SiteFooter />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <SiteLayout />
+    </Router>
   );
 }
 

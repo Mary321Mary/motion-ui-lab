@@ -13,7 +13,6 @@ const SvgAnimationPage = () => {
         display: "flex",
         flexDirection: "column",
         gap: 100,
-        backgroundColor: "#623874",
         padding: "20px",
       }}
     >
@@ -21,7 +20,7 @@ const SvgAnimationPage = () => {
       <Counter />
       <TypewriterText />
       <ScrambleText />
-      <h1 style={{ fontSize: 36, margin: "auto", color: "#fff" }}>
+      <h1 style={{ fontSize: 36, margin: "auto" }}>
         I am a <FlipWords />
       </h1>
       <PathDrawing />

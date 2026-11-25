@@ -12,16 +12,5 @@ export default function Counter() {
     return () => controls.stop();
   }, [count]);
 
-  return (
-    <motion.div
-      style={{
-        fontSize: 64,
-        lineHeight: 1,
-        color: "#fff",
-        margin: "auto",
-      }}
-    >
-      {rounded}
-    </motion.div>
-  );
+  return <motion.div style={{ fontSize: 64, lineHeight: 1, margin: "auto" }}>{rounded}</motion.div>;
 }

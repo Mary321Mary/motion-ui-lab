@@ -27,7 +27,7 @@ export function ScrambleText({ targetText = "SYSTEM ONLINE" }) {
   }, [targetText, progress]);
 
   return (
-    <motion.span style={{ fontSize: 32, fontFamily: "monospace", margin: "auto", color: "#fff" }}>
+    <motion.span style={{ fontSize: 32, fontFamily: "monospace", margin: "auto" }}>
       {scrambled}
     </motion.span>
   );

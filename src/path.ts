@@ -5,5 +5,4 @@ export const PATH = {
   SVG_ANIMATION: "/svg-animation",
   BASKET: "/basket",
   MENU: "/menu",
-  SHUFFLE: "/shuffle",
 };

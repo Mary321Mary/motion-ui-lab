@@ -34,7 +34,6 @@ export function TypewriterText({ text = "Hello, Full-Stack Developer!" }) {
         display: "inline-block",
         fontSize: 32,
         fontFamily: "monospace",
-        color: "#fff",
         margin: "auto",
         cursor: "pointer",
         userSelect: "none",
