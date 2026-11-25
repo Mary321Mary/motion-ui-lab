@@ -52,9 +52,9 @@ Demonstrates shared-element and container expansion patterns without layout thra
 ## Getting Started
 
 ```bash
-
 # Clone the repository
-git clone [https://github.com/Mary321Mary/motion-ui-lab.git](https://github.com/Mary321Mary/motion-ui-lab.git)
+git clone https://github.com/Mary321Mary/motion-ui-lab.git
+cd motion-ui-lab
 
 # Install dependencies
 npm install

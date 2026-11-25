@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { animate, motion, useMotionValue } from "motion/react";
 
 export default function Rotate() {
@@ -8,7 +8,7 @@ export default function Rotate() {
   const scale = useMotionValue(1);
   const controlsRef = useRef<ReturnType<typeof animate>[]>([]);
 
-  const replay = () => {
+  const replay = useCallback(() => {
     controlsRef.current.forEach((controls) => controls.stop());
 
     rotate.set(0);
@@ -18,14 +18,14 @@ export default function Rotate() {
       animate(rotate, 360, { duration: 2 }),
       animate(scale, 2, { duration: 2 }),
     ];
-  };
+  }, [rotate, scale]);
 
   useEffect(() => {
     replay();
     return () => {
       controlsRef.current.forEach((controls) => controls.stop());
     };
-  }, []);
+  }, [replay]);
 
   return <motion.div style={{ ...box, rotate, scale, cursor: "pointer" }} onMouseEnter={replay} />;
 }
